@@ -138,10 +138,12 @@ shinyServer(function(input, output, session) {
                    alpha = .5) + 
       geom_vline(xintercept = 0, size = .15, linetype = "dashed") + 
       xlab("log(Human to Bot Edits Ratio)") + 
-      ggtitle("Human to Bots Edit Ratio (per Class) in Wikidata") + 
+      ggtitle(label = "Human to Bots Edit Ratio (per Class) in Wikidata", 
+              subtitle = "Note: Classes with 0 bot edits are not accounted for (Ratio = Infinite).") + 
       theme_bw() + 
       theme(panel.border = element_blank()) + 
-      theme(plot.title = element_text(hjust = 0.5, size = 14))
+      theme(plot.title = element_text(hjust = 0.5, size = 14)) + 
+      theme(plot.subtitle = element_text(hjust = 0.5, size = 11))
   }) %>% withProgress(message = 'Generating plot',
                       min = 0,
                       max = 1,
@@ -199,7 +201,7 @@ shinyServer(function(input, output, session) {
                    size = .15, 
                    alpha = .5) + 
       xlab("Proportion") + 
-      ggtitle("Proportion of Items Touched by Human Editors (per Class) in Wikidata") + 
+      ggtitle("Proportion of Items Ever Touched by Human Editors (per Class) in Wikidata") + 
       theme_bw() + 
       theme(panel.border = element_blank()) + 
       theme(plot.title = element_text(hjust = 0.5, size = 14))

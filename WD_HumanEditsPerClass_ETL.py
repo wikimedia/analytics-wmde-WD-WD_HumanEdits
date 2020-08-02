@@ -1,4 +1,3 @@
-#!/usr/bin/env Rscript
 
 ### ---------------------------------------------------------------------------
 ### --- WD_HumanEditsPerClass, v 0.0.1
@@ -101,7 +100,7 @@ WD_dump = WD_dump.withColumn('wd_class', regexp_extract(col('wd_class'), '(Q\d+)
 WD_dump = WD_dump.filter(WD_dump['item'].rlike("Q\d+"))
 WD_dump = WD_dump.orderBy('item')
 
-# - Process wmf.mediawiki_history: extract item, numHumanEdits, numBotEdits**
+# - Process wmf.mediawiki_history: extract item, numHumanEdits, numBotEdits
 wmwh = sqlContext.sql('SELECT page_title, event_user_is_bot_by FROM wmf.mediawiki_history WHERE event_entity="revision" AND event_type="create" AND wiki_db="wikidatawiki" AND page_namespace=0 AND snapshot="' + mwwikiSnapshot + '"')
 wmwh = wmwh.withColumn("bot_name", array_contains(col("event_user_is_bot_by"), "name"))
 wmwh = wmwh.withColumn("bot_group", array_contains(col("event_user_is_bot_by"), "group"))
