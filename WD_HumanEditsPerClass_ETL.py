@@ -39,6 +39,7 @@
 import pyspark
 from pyspark.sql import SparkSession, DataFrame, Window
 from pyspark.sql.functions import rank, col, explode, regexp_extract, array_contains, when, sum, count, expr
+import pandas as pd
 import os
 import subprocess
 import gc
@@ -59,7 +60,7 @@ def list_files(dir):
     return [os.path.join(dir, f) for f in files]
     
 ### --- parse WDCM parameters
-parsFile = "wdHumanEditsPerClass_Config.xml"
+parsFile = "/home/goransm/Analytics/Wikidata/WD_HumanEdits/wdHumanEditsPerClass_Config.xml"
 # - parse wdcmConfig.xml
 tree = ET.parse(parsFile)
 root = tree.getroot()
@@ -69,8 +70,6 @@ params = dict(zip(k, v))
 
 ### --- dir structure and params
 hdfsPath = params['hdfsPath']
-wikidataEntitySnapshot = params['wikidataEntitySnapshot']
-mwwikiSnapshot = params['mwwikiSnapshot']
 
 # - Spark Session
 sc = SparkSession\
@@ -81,6 +80,17 @@ sc = SparkSession\
 
 # - SQL context
 sqlContext = pyspark.SQLContext(sc)
+
+### --- get wmf.wikidata_entity snapshot
+snaps = sqlContext.sql('SHOW PARTITIONS wmf.wikidata_entity')
+snaps = snaps.toPandas()
+wikidataEntitySnapshot = snaps.tail(1)['partition'].to_string()
+wikidataEntitySnapshot = wikidataEntitySnapshot[-10:]
+### --- get wmf.mediawiki_history snapshot
+snaps = sqlContext.sql('SHOW PARTITIONS wmf.mediawiki_history')
+snaps = snaps.toPandas()
+mwwikiSnapshot = snaps.tail(1)['partition'].to_string()
+mwwikiSnapshot = mwwikiSnapshot[-7:]
 
 ### ---------------------------------------------------------------------------
 ### --- 1: Produce human vs. bot Wikidata edit statistics

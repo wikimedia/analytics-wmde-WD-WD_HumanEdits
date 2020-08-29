@@ -53,10 +53,8 @@ shinyUI(
     fluidRow(
       column(width = 6,
              includeHTML('html/dashboard_header.html'),
-             hr(),
-             htmlOutput('wikidata_entity_timestamp'),
-             htmlOutput('mediawiki_history_timestamp'),
-             hr())
+             hr()
+             )
     ),
     fluidRow(
       column(width = 6,

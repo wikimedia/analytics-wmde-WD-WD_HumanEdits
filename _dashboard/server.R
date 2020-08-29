@@ -90,22 +90,6 @@ shinyServer(function(input, output, session) {
     )
   })
   
-  ### --- wmf.wikidata_entity timestamp
-  output$wikidata_entity_timestamp <- renderText({
-    paste0('<p style="font-size:80%;"align="left">',
-           'The currently used version of the wmf.wikidata_entity (Wikidata JSON dump) table: <b>',
-           params$general$wikidataEntitySnapshot, '</b></p>'
-    )
-  })
-  
-  ### --- wmf.mediawiki_history timestamp
-  output$mediawiki_history_timestamp <- renderText({
-    paste0('<p style="font-size:80%;"align="left">',
-           'The currently used version of the wmf.mediawiki_history table: <b>',
-           params$general$mwwikiSnapshot, '</b></p>'
-    )
-  })
-  
   ### --- TABLE
   ### --- output$overviewDT
   output$overviewDT <- DT::renderDataTable({

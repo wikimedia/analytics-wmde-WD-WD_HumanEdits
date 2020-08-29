@@ -94,7 +94,6 @@ system(command = paste0('sudo -u analytics-privatedata spark2-submit ',
                         sparkDriverMemory, ' ',
                         sparkExecutorMemory, ' ',
                         sparkExecutorCores, ' ',
-                        '--files wdHumanEditsPerClass_Config.xml', ' ',
                         paste0(fPath, 'WD_HumanEditsPerClass_ETL.py')
 ),
 wait = T)
