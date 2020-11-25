@@ -78,6 +78,9 @@ sc = SparkSession\
     .enableHiveSupport()\
     .getOrCreate()
 
+# - Spark Session Log Level: INFO
+sc.sparkContext.setLogLevel("INFO")
+
 # - SQL context
 sqlContext = pyspark.SQLContext(sc)
 
@@ -197,6 +200,3 @@ wmwh_class = wmwh_class.join(labs, wmwh_class.wd_class == labs.id, how='left').d
 # save: wmwh_class
 fileName = "classMedianEditors.csv"
 wmwh_class.repartition(30).write.option("quote", "\u0000").format('csv').mode("overwrite").save(hdfsPath + fileName)
-
-# - YARN
-# - sudo -u analytics-privatedata spark2-submit --master yarn --deploy-mode client --num-executors 100 --driver-memory 20000m --executor-memory 20000m --executor-cores 16 /home/goransm/Analytics/Wikidata/WD_HumanEdits/WD_HumanEditsPerClass_ETL.py

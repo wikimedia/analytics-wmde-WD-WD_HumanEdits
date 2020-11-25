@@ -64,6 +64,9 @@ dataDir <- params$general$dataDir
 analyticsDir <- params$general$analyticsDir
 hdfsPath <- params$general$hdfsPath
 publicDir <- params$general$publicDir
+
+params <- xmlParse(paste0(fPath, "wdHumanEditsPerClass_Config_Deploy.xml"))
+params <- xmlToList(params)
 # - spark2-submit parameters:
 sparkMaster <- params$spark$master
 sparkDeployMode <- params$spark$deploy_mode
@@ -90,13 +93,12 @@ system(command = 'sudo -u analytics-privatedata kerberos-run-command analytics-p
 system(command = paste0('sudo -u analytics-privatedata spark2-submit ', 
                         sparkMaster, ' ',
                         sparkDeployMode, ' ', 
-                        sparkNumExecutors, ' ',
                         sparkDriverMemory, ' ',
                         sparkExecutorMemory, ' ',
                         sparkExecutorCores, ' ',
-                        paste0(fPath, 'WD_HumanEditsPerClass_ETL.py')
-),
-wait = T)
+                        sparkConfigDynamic, ' ',
+                        paste0(fPath, 'WD_HumanEditsPerClass_ETL.py')),
+       wait = T)
 
 # - toRuntime Log:
 print("Log: RUN WD_HumanEditsPerClass_ETL.py COMPLETED.")
