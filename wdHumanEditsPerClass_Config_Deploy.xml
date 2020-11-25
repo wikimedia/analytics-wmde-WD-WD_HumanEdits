@@ -14,7 +14,7 @@
       <!-- executor_memory: executor_memory -->
       <executor_memory>--executor-memory 20000m</executor_memory>
       <!-- executor_cores: executor_cores -->
-      <executor_cores>--executor-cores 16</executor_cores>
+      <executor_cores>--executor-cores 8</executor_cores>
       <!-- config for dynamic allocation -->
       <config>--conf spark.dynamicAllocation.maxExecutors=100</config>
     </spark>
